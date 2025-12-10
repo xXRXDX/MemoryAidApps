@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apkres-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DFF6FA">
+
+    <!-- Scroll Area (everything except bottom nav) -->
+    <ScrollView
+        android:id="@+id/scrollTasks"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/rootContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center_horizontal">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Tasks"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:layout_marginBottom="26dp" />
+
+            <!-- 3 Buttons -->
+            <Button
+                android:id="@+id/btnDaily"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Daily Quests"
+                android:background="@drawable/btn_daily"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnMain"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Main Quests"
+                android:background="@drawable/btn_main"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnSide"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Side Quests"
+                android:background="@drawable/btn_side"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="26dp" />
+
+            <!-- Dynamic Task Cards Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Missions"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- RecyclerView for user tasks -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerUserTasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="20dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Bottom Nav -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#FFFFFF"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_home" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_tasks" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_streaks" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_profile" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_community" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_timer" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

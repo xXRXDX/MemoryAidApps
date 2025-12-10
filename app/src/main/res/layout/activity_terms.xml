@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/terms_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E7FBFD"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Let’s Get to Know You"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:textColor="#101010"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Rounded panel container (card-like) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/termsCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="8dp"
+        app:cardUseCompatPadding="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="12dp"
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintBottom_toTopOf="@+id/checkboxRow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp">
+
+        <!-- Inner layout to hold scrollable text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:id="@+id/termsScroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="ifContentScrolls">
+
+                <TextView
+                    android:id="@+id/termsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#111111"
+                    android:lineSpacingExtra="2dp"
+                    android:padding="6dp"
+                    android:textIsSelectable="true"
+                    android:text='
+Terms &amp; Conditions
+
+Welcome to the Short-Term Memory Aid App! Before using this application, please read the following carefully:
+
+Acceptance
+By using this app, you agree to comply with these Terms &amp; Conditions. If you do not agree, please do not use the app.
+
+Purpose of the App
+This app is designed to help users, including individuals with ADHD and depression, manage tasks, track progress, and stay motivated through gamified features.
+
+User Responsibilities
+You are responsible for providing accurate information when creating an account and using the app’s features appropriately.
+
+Privacy
+Any personal information or data you input will be stored securely and used only to provide app functionality, including task tracking, avatar customization, and rewards.
+
+Content
+All images, avatars, and app content are for personal use only. Users may not reproduce or distribute app content without permission.
+
+Limitations
+This app is a productivity and motivational aid and is not a substitute for professional medical advice. For mental health concerns, please consult a qualified professional.
+
+Updates and Changes
+We may update the app and these Terms &amp; Conditions periodically. Continued use of the app constitutes acceptance of the updated terms.
+
+Contact
+For questions or support, please contact us through the app or at [your support email].
+
+By tapping “I Agree”, you acknowledge that you have read and accepted these Terms &amp; Conditions.
+' />
+            </ScrollView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Checkbox row -->
+    <LinearLayout
+        android:id="@+id/checkboxRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRow">
+
+        <CheckBox
+            android:id="@+id/agreeCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#0B78A2"
+            android:paddingEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/agreeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree of Terms &amp; Conditions"
+            android:textSize="14sp"
+            android:textColor="#111111"/>
+    </LinearLayout>
+
+    <!-- Buttons row -->
+    <LinearLayout
+        android:id="@+id/buttonRow"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Back button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Back"
+            android:textAllCaps="false"
+            app:cornerRadius="24dp"
+            app:iconGravity="textStart"
+            app:strokeWidth="0dp"
+            android:elevation="6dp"
+            android:layout_marginEnd="10dp"/>
+
+        <!-- Continue button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/continueButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Continue"
+            android:textAllCaps="false"
+            app:cornerRadius="24dp"
+            app:iconGravity="textStart"
+            app:strokeWidth="0dp"
+            android:elevation="6dp"
+            android:layout_marginStart="10dp"
+            android:enabled="false"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

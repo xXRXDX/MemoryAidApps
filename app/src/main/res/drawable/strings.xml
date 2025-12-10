@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="preferred_tasks">
+        <item>Keep journal</item>
+        <item>Take short walks</item>
+        <item>Night Review</item>
+        <item>Clear Space</item>
+    </string-array>
+</resources>

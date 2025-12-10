@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E4FBFF">
+
+    <!-- Title -->
+
+    <!-- White Form Box -->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's Get to Know You"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
+
+    <LinearLayout
+        android:id="@+id/formContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@drawable/forms_bg"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- EMAIL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="e.g name@gmail.com"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/input_bg"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- USERNAME -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/inputUsername"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="Choose a username"
+            android:paddingHorizontal="15dp"
+            android:background="@drawable/input_bg"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- BIRTHDAY -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter your birthday"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/input_bg"
+            android:paddingHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="15dp">
+
+            <EditText
+                android:id="@+id/inputBirthday"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:hint="dd/mm/yyyy --:-- --"
+                android:background="@android:color/transparent"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_calendar" />
+        </LinearLayout>
+
+        <!-- CONDITION TYPE -->
+        <TextView
+            android:layout_width="361dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Condition Type"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/conditionGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/adhd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADHD" />
+
+            <RadioButton
+                android:id="@+id/depression"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Depression" />
+
+            <RadioButton
+                android:id="@+id/both"
+                android:layout_width="285dp"
+                android:layout_height="wrap_content"
+                android:text="Both" />
+
+            <RadioButton
+                android:id="@+id/none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="None/Prefer not to say" />
+        </RadioGroup>
+
+        <!-- NOTIFICATION STYLE -->
+
+    </LinearLayout>
+
+    <!-- BUTTONS -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="45dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formContainer">
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/back_btn"
+            android:text="Back"
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/continueBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/continue_btn"
+            android:text="Continue"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
