@@ -2,4 +2,25 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Background Colors -->
+    <color name="background_primary">#E8F4F8</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="card_border">#B8E0E8</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#666666</color>
+
+    <!-- Badge Colors -->
+    <color name="badge_mid">#FFF59D</color>
+    <color name="badge_text">#5D5D00</color>
+
+    <!-- Button Colors -->
+    <color name="button_back_background">#C5D0D5</color>
+    <color name="button_back_text">#2D3436</color>
+    <color name="button_outline_border">#D0D0D0</color>
+
+    <!-- Navigation Colors -->
+    <color name="nav_icon_inactive">#9E9E9E</color>
+    <color name="nav_background">#FFFFFF</color>
 </resources>

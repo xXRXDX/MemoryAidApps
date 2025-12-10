@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MemoryAidApp</string>
+    <string name="title_activity_daily_quests">DailyQuests</string>
 </resources>
