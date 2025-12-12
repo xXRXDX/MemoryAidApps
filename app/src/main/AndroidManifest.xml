@@ -15,15 +15,7 @@
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".DailyQuests"
-            android:exported="false"
-            android:label="@string/title_activity_daily_quests"
-            android:theme="@style/Theme.MemoryAidApp" />
-        <activity
             android:name=".Timer"
-            android:exported="false" />
-        <activity
-            android:name=".timer"
             android:exported="false" />
         <activity
             android:name=".AddTasks"
