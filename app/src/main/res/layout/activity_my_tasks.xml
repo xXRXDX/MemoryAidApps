@@ -97,12 +97,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_home" />
-        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_tasks" />
-        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_streaks" />
-        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_profile" />
-        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_community" />
-        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/ic_nav_timer" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/home" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/tasks" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/streaks" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/profile" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/community" />
+        <ImageView android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:src="@drawable/timer" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
