@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class GetToKnow extends AppCompatActivity {
 
+
     private static final String TAG = "GetToKnow";
     private TextView alreadyHaveAccount;
     private EditText inputEmail, inputUsername, inputBirthday, inputPassword;
@@ -41,6 +42,8 @@ public class GetToKnow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_to_know);
+
+        ImmersiveUtil.enableImmersiveMode(this);
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();

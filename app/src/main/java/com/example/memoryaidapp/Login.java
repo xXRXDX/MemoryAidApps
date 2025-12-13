@@ -22,6 +22,7 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ImmersiveUtil.enableImmersiveMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -67,6 +68,7 @@ public class Login extends AppCompatActivity {
                     startActivity(new Intent(Login.this, Home.class));
                     finish();
                 })
+
                 .addOnFailureListener(e -> {
                     loginBtn.setEnabled(true);
                     Toast.makeText(Login.this, "Login failed: " + e.getMessage(), Toast.LENGTH_LONG).show();

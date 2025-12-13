@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        ImmersiveUtil.enableImmersiveMode(this);
         super.onStart();
 
         SharedPreferences prefs = getSharedPreferences("AppCache", MODE_PRIVATE);

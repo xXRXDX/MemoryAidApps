@@ -18,6 +18,7 @@ public class Home extends AppCompatActivity {
 
         // Setup bottom navigation
         NavHelper.setupBottomNav(this);
+        ImmersiveUtil.enableImmersiveMode(this);
 
         // ============================
         // CONNECT BUTTONS TO CLASSES

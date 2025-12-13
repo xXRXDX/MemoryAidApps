@@ -1,65 +1,61 @@
 package com.example.memoryaidapp;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
 public class TaskAlarmReceiver extends BroadcastReceiver {
 
-    private static final String CHANNEL_ID = "task_reminder_channel";
+    private static final String CHANNEL_ID = "TASK_ALARM_CHANNEL";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String title = intent.getStringExtra("title");
-        if (title == null) title = "Scheduled Task";
 
-        // build notification channel
+        long taskId = intent.getLongExtra("taskId", -1);
+        String title = intent.getStringExtra("title");
+        String desc = intent.getStringExtra("desc");
+        if (title == null) title = "Task";
+        if (desc == null) desc = "";
+
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel ch = new NotificationChannel(CHANNEL_ID, "Task reminders", NotificationManager.IMPORTANCE_HIGH);
-            ch.setDescription("Reminders for scheduled tasks");
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel ch = new NotificationChannel(CHANNEL_ID, "Task Alarms", NotificationManager.IMPORTANCE_HIGH);
+            ch.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM), null);
+            ch.enableVibration(true);
             nm.createNotificationChannel(ch);
         }
 
-        // Proceed -> opens StopwatchActivity
-        Intent proceed = new Intent(context, StopwatchActivity.class);
-        proceed.putExtra("title", title);
-        proceed.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent proceedPending = PendingIntent.getActivity(context,
-                (int) (System.currentTimeMillis() & 0xFFFFFF),
-                proceed,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        // Full screen intent opens StopwatchActivity and passes taskId
+        Intent full = new Intent(context, StopwatchActivity.class);
+        full.putExtra("taskId", taskId);
+        full.putExtra("title", title);
+        full.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Dismiss action (fires a small receiver)
-        Intent dismiss = new Intent(context, DismissReceiver.class);
-        PendingIntent dismissPending = PendingIntent.getBroadcast(context,
-                (int) ((System.currentTimeMillis() + 1) & 0xFFFFFF),
-                dismiss,
+        PendingIntent fullPending = PendingIntent.getActivity(context,
+                Math.abs((int) (taskId & 0x7fffffff)),
+                full,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(title)
-                .setContentText("Tap Proceed to start the task stopwatch")
+                .setContentTitle("⏰ " + title)
+                .setContentText(desc)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setAutoCancel(true)
-                .addAction(0, "Proceed", proceedPending)
-                .addAction(0, "Dismiss", dismissPending);
+                .setFullScreenIntent(fullPending, true)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
 
-        if (nm != null) {
-            nm.notify((int) (System.currentTimeMillis() & 0xFFFFFF), nb.build());
-        }
-
-        // Also start StopwatchActivity on receive so the user sees it right away (some devices)
-        Intent start = new Intent(context, StopwatchActivity.class);
-        start.putExtra("title", title);
-        start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(start);
+        Notification n = nb.build();
+        nm.notify(Math.abs((int) (taskId & 0x7fffffff)), n);
     }
 }

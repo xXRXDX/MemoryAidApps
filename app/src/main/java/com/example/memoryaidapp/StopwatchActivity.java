@@ -1,11 +1,11 @@
 package com.example.memoryaidapp;
 
-import android.app.AlertDialog;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,32 +18,30 @@ import androidx.appcompat.app.AppCompatActivity;
 public class StopwatchActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvTimer;
-    private Button btnTakePhoto, btnMarkDone;
-
+    private Button btnTakePic, btnMarkDone;
     private long startTime = 0L;
-    private long elapsedBeforePause = 0L;
+    private long totalElapsedBeforePause = 0L;
     private boolean running = false;
     private boolean photoTaken = false;
+    private long taskId = -1L;
 
-    private Handler handler = new Handler();
+    private android.os.Handler handler = new android.os.Handler();
 
     private final Runnable tick = new Runnable() {
         @Override
         public void run() {
-            long now = System.currentTimeMillis();
-            long diff = (running ? (now - startTime) + elapsedBeforePause : elapsedBeforePause);
-            int totalSeconds = (int) (diff / 1000);
-            int hrs = totalSeconds / 3600;
-            int mins = (totalSeconds % 3600) / 60;
-            int secs = totalSeconds % 60;
-            tvTimer.setText(String.format("%02d:%02d:%02d", hrs, mins, secs));
+            long elapsed = totalElapsedBeforePause + (running ? (System.currentTimeMillis() - startTime) : 0);
+            int secs = (int) (elapsed / 1000);
+            int hrs = secs / 3600;
+            int mins = (secs % 3600) / 60;
+            int s = secs % 60;
+            tvTimer.setText(String.format("%02d:%02d:%02d", hrs, mins, s));
             handler.postDelayed(this, 500);
         }
     };
 
     private final ActivityResultLauncher<Intent> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                // if camera app returned a photo (thumbnail) we consider a photo taken
                 if (result != null && result.getResultCode() == RESULT_OK) {
                     photoTaken = true;
                 }
@@ -54,23 +52,25 @@ public class StopwatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
 
-        // show over lock screen & keep screen on
+        // show over lock screen and keep screen on
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
         tvTitle = findViewById(R.id.tvReminderTitle);
         tvTimer = findViewById(R.id.tvReminderTimer);
-        btnTakePhoto = findViewById(R.id.btnTakePic);
+        btnTakePic = findViewById(R.id.btnTakePic);
         btnMarkDone = findViewById(R.id.btnMarkDone);
 
-        String title = getIntent().getStringExtra("title");
+        Intent i = getIntent();
+        taskId = i.getLongExtra("taskId", -1L);
+        String title = i.getStringExtra("title");
         if (title == null) title = "Task";
 
         tvTitle.setText(title);
@@ -79,66 +79,61 @@ public class StopwatchActivity extends AppCompatActivity {
 
         startStopwatch();
 
-        btnTakePhoto.setOnClickListener(v -> {
+        btnTakePic.setOnClickListener(v -> {
             Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (cam.resolveActivity(getPackageManager()) != null) {
                 cameraLauncher.launch(cam);
             }
         });
 
-        btnMarkDone.setOnClickListener(v -> completeTask());
+        btnMarkDone.setOnClickListener(v -> {
+            stopStopwatch();
+            // compute XP (1 xp per 5 seconds, min 1, x2 if photo)
+            long elapsed = totalElapsedBeforePause;
+            int seconds = (int) (elapsed / 1000);
+            int xp = Math.max(1, seconds / 5);
+            if (photoTaken) xp *= 2;
+
+            // remove task and cancel alarm
+            if (taskId != -1L) {
+                TaskStore.removeTaskById(this, taskId);
+                cancelAlarmForTask(taskId);
+            }
+
+            // show simple popup (Toast) — you can swap for AlertDialog or animated view
+            android.widget.Toast.makeText(this, "You earned " + xp + " XP", android.widget.Toast.LENGTH_LONG).show();
+            finish();
+        });
     }
 
     private void startStopwatch() {
         startTime = System.currentTimeMillis();
-        elapsedBeforePause = 0L;
         running = true;
         handler.post(tick);
     }
 
     private void stopStopwatch() {
         if (running) {
-            elapsedBeforePause += System.currentTimeMillis() - startTime;
+            totalElapsedBeforePause += System.currentTimeMillis() - startTime;
             running = false;
             handler.removeCallbacks(tick);
         }
     }
 
-    private void completeTask() {
-        stopStopwatch();
-        long totalMillis = elapsedBeforePause;
-        int seconds = (int) (totalMillis / 1000);
-
-        // base EXP calculation: 1 XP for every 5 seconds
-        int xp = seconds / 5;
-        if (xp < 1) xp = 1;
-
-        // multiplier if photo taken
-        if (photoTaken) xp *= 2;
-
-        // show popup with scaled XP and a simple progress-like scaling message
-        String message = "You earned " + xp + " XP!\n\n";
-        message += "Time: " + formatTime(totalMillis) + "\n";
-        message += "Photo bonus: " + (photoTaken ? "x2 applied" : "none");
-
-        new AlertDialog.Builder(this)
-                .setTitle("Task Completed")
-                .setMessage(message)
-                .setPositiveButton("OK", (d, w) -> finish())
-                .setCancelable(false)
-                .show();
-    }
-
-    private String formatTime(long millis) {
-        int totalSeconds = (int) (millis / 1000);
-        int hrs = totalSeconds / 3600;
-        int mins = (totalSeconds % 3600) / 60;
-        int secs = totalSeconds % 60;
-        return String.format("%02d:%02d:%02d", hrs, mins, secs);
+    private void cancelAlarmForTask(long id) {
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, TaskAlarmReceiver.class);
+        intent.putExtra("taskId", id);
+        intent.putExtra("title", ""); // extras don't matter for cancel; ensure matching requestCode
+        int req = Math.abs((int) (id & 0x7fffffff));
+        PendingIntent pi = PendingIntent.getBroadcast(this, req, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        if (am != null) {
+            am.cancel(pi);
+        }
     }
 
     @Override
     public void onBackPressed() {
-        // block back button while in full-screen reminder (user must press Mark task as done)
+        // block back to enforce marking done (user can still Home/swap apps)
     }
 }

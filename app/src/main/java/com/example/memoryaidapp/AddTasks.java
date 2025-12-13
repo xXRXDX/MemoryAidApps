@@ -5,18 +5,19 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class AddTasks extends AppCompatActivity {
 
@@ -30,8 +31,10 @@ public class AddTasks extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_tasks);
+
+        // request notification permission on Android 13+
+        requestNotificationPermissionIfNeeded();
 
         editCustomTask = findViewById(R.id.editCustomTask);
         editDescription = findViewById(R.id.editDescription);
@@ -44,105 +47,91 @@ public class AddTasks extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnGenerate = findViewById(R.id.btnGenerate);
 
-        // initial UI
-        editCustomTask.setTextColor(Color.BLACK);
-        editDescription.setTextColor(Color.BLACK);
-        editSchedule.setTextColor(Color.BLACK);
+        // priorities
+        btnHigh.setOnClickListener(v -> applyPriority("High"));
+        btnMedium.setOnClickListener(v -> applyPriority("Medium"));
+        btnLow.setOnClickListener(v -> applyPriority("Low"));
 
-        // default priority selection
-        applyPrioritySelection("Medium");
-
-        // priority click handlers
-        btnHigh.setOnClickListener(v -> applyPrioritySelection("High"));
-        btnMedium.setOnClickListener(v -> applyPrioritySelection("Medium"));
-        btnLow.setOnClickListener(v -> applyPrioritySelection("Low"));
-
-        // schedule input opens date then time picker
         editSchedule.setOnClickListener(v -> openDateTimePicker());
 
         btnCancel.setOnClickListener(v -> finish());
 
-        btnGenerate.setOnClickListener(v -> {
-            String title = editCustomTask.getText().toString().trim();
-            if (title.isEmpty()) {
-                Toast.makeText(this, "Please enter a task title", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            scheduleAlarmForTask(title, editDescription.getText().toString().trim());
-            Toast.makeText(this, "Task scheduled", Toast.LENGTH_SHORT).show();
-            finish();
-        });
+        btnGenerate.setOnClickListener(v -> onGenerateClicked());
     }
 
-    private void applyPrioritySelection(String priority) {
-        selectedPriority = priority;
-
-        // highlight selected with system holo colors for clarity, undo for others
-        if (priority.equals("High")) {
-            btnHigh.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-            btnMedium.setBackgroundColor(Color.TRANSPARENT);
-            btnLow.setBackgroundColor(Color.TRANSPARENT);
-        } else if (priority.equals("Medium")) {
-            btnHigh.setBackgroundColor(Color.TRANSPARENT);
-            btnMedium.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
-            btnLow.setBackgroundColor(Color.TRANSPARENT);
-        } else {
-            btnHigh.setBackgroundColor(Color.TRANSPARENT);
-            btnMedium.setBackgroundColor(Color.TRANSPARENT);
-            btnLow.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+    private void requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 2001);
+            }
         }
+    }
 
-        // text color contrast
-        btnHigh.setTextColor(priority.equals("High") ? Color.BLACK : Color.BLACK);
-        btnMedium.setTextColor(priority.equals("Medium") ? Color.BLACK : Color.BLACK);
-        btnLow.setTextColor(priority.equals("Low") ? Color.BLACK : Color.BLACK);
+    private void applyPriority(String p) {
+        selectedPriority = p;
+        // visual changes: simple background color swap (caller drawables preferred)
+        int selHigh = getResources().getColor(android.R.color.holo_red_light);
+        int selMed = getResources().getColor(android.R.color.holo_orange_light);
+        int selLow = getResources().getColor(android.R.color.holo_green_light);
+
+        btnHigh.setBackgroundColor(p.equals("High") ? selHigh : getResources().getColor(android.R.color.transparent));
+        btnMedium.setBackgroundColor(p.equals("Medium") ? selMed : getResources().getColor(android.R.color.transparent));
+        btnLow.setBackgroundColor(p.equals("Low") ? selLow : getResources().getColor(android.R.color.transparent));
     }
 
     private void openDateTimePicker() {
-        final Calendar now = Calendar.getInstance();
-
-        DatePickerDialog dpd = new DatePickerDialog(this,
-                (view, year, month, dayOfMonth) -> {
-                    // after date picked, show time picker
-                    TimePickerDialog tpd = new TimePickerDialog(this,
-                            (timeView, hourOfDay, minute) -> {
-                                selectedCalendar.set(year, month, dayOfMonth, hourOfDay, minute, 0);
-                                SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                                editSchedule.setText(fmt.format(selectedCalendar.getTime()));
-                            },
-                            now.get(Calendar.HOUR_OF_DAY),
-                            now.get(Calendar.MINUTE),
-                            true);
-                    tpd.show();
-                },
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH));
-        dpd.show();
+        Calendar now = Calendar.getInstance();
+        new DatePickerDialog(this, (v, year, month, day) ->
+                new TimePickerDialog(this, (tv, hour, minute) -> {
+                    selectedCalendar.set(year, month, day, hour, minute, 0);
+                    String formatted = new SimpleDateFormat("MMM dd, yyyy h:mm a", Locale.getDefault())
+                            .format(selectedCalendar.getTime());
+                    editSchedule.setText(formatted);
+                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false).show()
+                , now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void scheduleAlarmForTask(String title, String description) {
-        Intent intent = new Intent(this, TaskAlarmReceiver.class);
-        intent.putExtra("title", title);
-        intent.putExtra("description", description);
-        intent.putExtra("priority", selectedPriority);
+    private void onGenerateClicked() {
+        String title = editCustomTask.getText().toString().trim();
+        String desc = editDescription.getText().toString().trim();
+        String timeText = editSchedule.getText().toString().trim();
 
-        int requestCode = (int) (System.currentTimeMillis() & 0xFFFFFF);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this,
-                requestCode,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        long triggerAt = selectedCalendar.getTimeInMillis();
-        if (triggerAt <= System.currentTimeMillis()) {
-            // if user didn't set or set to past, default to 5 seconds from now
-            triggerAt = System.currentTimeMillis() + 5000;
+        if (title.isEmpty()) {
+            Toast.makeText(this, "Enter task title", Toast.LENGTH_SHORT).show();
+            return;
         }
-        if (alarmManager != null) {
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent);
+
+        long id = System.currentTimeMillis();
+        long scheduledMillis = selectedCalendar.getTimeInMillis();
+        if (scheduledMillis <= 0) {
+            // default to 5 seconds from now if not set
+            scheduledMillis = System.currentTimeMillis() + 5000;
+        }
+
+        Task t = new Task(id, title, desc, selectedPriority, timeText, scheduledMillis);
+        TaskStore.saveTask(this, t);
+
+        scheduleAlarmForTask(t);
+
+        // go back to MyTasks so user sees card
+        startActivity(new Intent(this, MyTasks.class));
+        finish();
+    }
+
+    private void scheduleAlarmForTask(Task t) {
+        Intent i = new Intent(this, TaskAlarmReceiver.class);
+        i.putExtra("taskId", t.id);
+        i.putExtra("title", t.title);
+        i.putExtra("desc", t.description);
+
+        int req = Math.abs((int) (t.id & 0x7fffffff));
+
+        PendingIntent pi = PendingIntent.getBroadcast(this, req, i,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (am != null) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t.scheduledMillis, pi);
         }
     }
 }

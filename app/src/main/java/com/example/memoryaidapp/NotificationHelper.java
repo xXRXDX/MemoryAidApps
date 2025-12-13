@@ -1,5 +1,6 @@
 package com.example.memoryaidapp;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.app.PendingIntent;
 import android.os.Build;
 
+import androidx.annotation.RequiresPermission;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -32,6 +34,7 @@ public class NotificationHelper {
         }
     }
 
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     public void showReminderNotification(String taskId, String title, String text, boolean playSound) {
         // Proceed intent (opens full-screen reminder)
         Intent proceedIntent = new Intent(ctx, Reminder.class);
