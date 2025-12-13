@@ -17,7 +17,6 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/text_primary"
-        android:paintFlags="underline"
         tools:text="Morning meditation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

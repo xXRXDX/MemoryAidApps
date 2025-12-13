@@ -52,8 +52,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Spinner / Dropdown -->
-
                     <!-- Custom task label -->
                     <TextView
                         android:layout_width="wrap_content"
@@ -71,7 +69,8 @@
                         android:background="@drawable/input_bg"
                         android:padding="12dp"
                         android:layout_marginTop="6dp"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:textColor="#000000"/>
 
                     <!-- Description -->
                     <TextView
@@ -91,7 +90,29 @@
                         android:background="@drawable/input_bg"
                         android:padding="12dp"
                         android:layout_marginTop="6dp"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textMultiLine"
+                        android:textColor="#000000"/>
+
+                    <!-- SCHEDULE (inserted BEFORE Priority) -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Schedule"
+                        android:textSize="13sp"
+                        android:textColor="#222222"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:id="@+id/editSchedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="Select date and time"
+                        android:background="@drawable/input_bg"
+                        android:padding="12dp"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:layout_marginTop="6dp"
+                        android:textColor="#000000"/>
 
                     <!-- Priority -->
                     <TextView
@@ -117,7 +138,6 @@
                             android:layout_weight="1"
                             android:text="High"
                             android:gravity="center"
-                            android:background="@drawable/priority_pill"
                             android:textColor="#000000"
                             android:textSize="13sp"/>
 
@@ -130,7 +150,6 @@
                             android:gravity="center"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:background="@drawable/priority_pill"
                             android:textColor="#000000"
                             android:textSize="13sp"/>
 
@@ -141,7 +160,6 @@
                             android:layout_weight="1"
                             android:text="Low"
                             android:gravity="center"
-                            android:background="@drawable/priority_pill"
                             android:textColor="#000000"
                             android:textSize="13sp"/>
 

@@ -1,330 +1,452 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollRoot"
+    android:id="@+id/home_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#E5FAFF">
+    android:background="#EAFDFC">  <!-- soft pale background to match screenshot -->
 
-    <LinearLayout
-        android:id="@+id/rootLinear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+    <!-- SCROLLABLE CONTENT (constrained to top and to top of bottom nav) -->
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/homeTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SHORT-TERM MEMORY AID"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="#111111"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Avatar Panel -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/avatarPanel"
-            android:layout_width="match_parent"
-            android:layout_height="213dp"
-            android:layout_marginBottom="16dp"
-            android:padding="10dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:id="@+id/avatarInner"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/avatarImage"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginBottom="6dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="avatar"
-                    android:src="@drawable/avatar" />
-
-                <TextView
-                    android:id="@+id/avatarMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Let’s start something today!"
-                    android:textColor="#0A7DA5"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Add New Task Button -->
-        <Button
-            android:id="@+id/addTaskButton"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/rounded_button"
-            android:text="+ Add New Task"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
-
-        <!-- XP Overview Panel -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/xpPanel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="5dp"
-            android:padding="14dp">
-
-            <LinearLayout
-                android:id="@+id/xpInner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/xpTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="XP Overview"
-                    android:textStyle="bold"
-                    android:textColor="#111111"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="8dp" />
-
-                <!-- Mind XP -->
-                <TextView
-                    android:id="@+id/mindLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="🧠 Mind Realm – Wisdom XP"
-                    android:textColor="#0A7DA5"
-                    android:textSize="14sp" />
-
-                <ProgressBar
-                    android:id="@+id/progressMind"
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:progressDrawable="@drawable/progress_bar_blue"
-                    android:max="100"
-                    android:layout_marginTop="4dp" />
-
-                <!-- Power XP -->
-                <TextView
-                    android:id="@+id/powerLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="💪 Power Realm – Strength XP"
-                    android:textColor="#A52828"
-                    android:textSize="14sp"
-                    android:layout_marginTop="10dp" />
-
-                <ProgressBar
-                    android:id="@+id/progressPower"
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:progressDrawable="@drawable/progress_bar_red"
-                    android:max="100"
-                    android:layout_marginTop="4dp" />
-
-                <!-- Heart XP -->
-                <TextView
-                    android:id="@+id/heartLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="❤️ Heart Realm – Spirit XP"
-                    android:textColor="#378C3F"
-                    android:textSize="14sp"
-                    android:layout_marginTop="10dp" />
-
-                <ProgressBar
-                    android:id="@+id/progressHeart"
-                    android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:progressDrawable="@drawable/progress_bar_green"
-                    android:max="100"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Level + Streak -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/levelStreakCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="5dp"
-            android:padding="14dp">
-
-            <LinearLayout
-                android:id="@+id/levelStreakInner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/levelBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/levelLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Player Level"
-                        android:textColor="#111111" />
-
-                    <TextView
-                        android:id="@+id/totalLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Lv. 5"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="#333333"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/streakBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/streakLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Streak (Daily Tasks)"
-                        android:textColor="#111111" />
-
-                    <TextView
-                        android:id="@+id/streakText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔥 5-Day Combo!"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="#F27A00"
-                        android:layout_marginTop="4dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Mood Tracker -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/moodCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="5dp"
-            android:layout_marginTop="16dp"
-            android:padding="14dp">
-
-            <LinearLayout
-                android:id="@+id/moodInner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/moodGreeting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hi 👋😊 How are you feeling today?"
-                    android:textColor="#111111"
-                    android:layout_marginBottom="6dp" />
-
-                <Button
-                    android:id="@+id/openMoodTracker"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button"
-                    android:text="Open Mood Tracker"
-                    android:textColor="#FFFFFF" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Bottom Nav -->
         <LinearLayout
-            android:id="@+id/bottomNav"
+            android:id="@+id/contentColumn"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title (small, centered) -->
+            <TextView
+                android:id="@+id/homeTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SHORT-TERM MEMORY AID"
+                android:textAlignment="center"
+                android:textColor="#0E2B33"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Avatar card (rounded, inner white sheet with subtle border) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/avatarCard"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <!-- inner framed box (simulating blue border from screenshot) -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/avatarInnerFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="2dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp">
+
+                            <ImageView
+                                android:id="@+id/avatarImage"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/avatar"
+                                android:contentDescription="avatar"
+                                android:adjustViewBounds="true"/>
+
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- small green pill below avatar -->
+                    <TextView
+                        android:id="@+id/avatarCTA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:layout_marginTop="8dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        android:gravity="center"
+                        android:text="Let's start something today!"
+                        android:textSize="13sp"
+                        android:textColor="#0A7DA5"
+                        android:background="@android:color/transparent"
+                        android:clipToPadding="false" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- + Add New Task (rounded pill) -->
+            <Button
+                android:id="@+id/addTaskButton"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/rounded_button"
+                android:text="+ Add New Task"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <!-- XP Overview compact card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/xpOverviewCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/xpHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="XP Overview"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#16363B"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- XP row 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🧠 Mind Realm – Wisdom XP"
+                                android:textSize="12sp"
+                                android:textColor="#0A7DA5"/>
+
+                            <TextView
+                                android:id="@+id/mindLevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Level 2"
+                                android:textSize="12sp"
+                                android:textColor="#6A6A6A"/>
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/progressMind"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:progressDrawable="@drawable/progress_bar_blue"
+                            android:max="100"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- XP row 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="💪 Power Realm – Strength XP"
+                                android:textSize="12sp"
+                                android:textColor="#A52828"/>
+
+                            <TextView
+                                android:id="@+id/powerLevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Level 1"
+                                android:textSize="12sp"
+                                android:textColor="#6A6A6A"/>
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/progressPower"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:progressDrawable="@drawable/progress_bar_red"
+                            android:max="100"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <!-- XP row 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="❤️ Heart Realm – Spirit XP"
+                                android:textSize="12sp"
+                                android:textColor="#378C3F"/>
+
+                            <TextView
+                                android:id="@+id/heartLevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Level 4"
+                                android:textSize="12sp"
+                                android:textColor="#6A6A6A"/>
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/progressHeart"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:progressDrawable="@drawable/progress_bar_green"
+                            android:max="100"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Level / Streak small card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/levelStreak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/labelTotalLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Player Level"
+                            android:textSize="12sp"
+                            android:textColor="#222"/>
+
+                        <TextView
+                            android:id="@+id/totalLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lv.5"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="end">
+
+                        <TextView
+                            android:id="@+id/labelStreak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Streak (Daily Tasks)"
+                            android:textSize="12sp"
+                            android:textColor="#222"/>
+
+                        <TextView
+                            android:id="@+id/streakText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔥 5-Day Combo!"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#F27A00"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Mood tracker card (compact) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/moodCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- small spacer so last card isn't flush with nav -->
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- FIXED BOTTOM NAV (pixel tuned) -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp">
+
+        <!-- icons are centered and slightly smaller to match screenshot -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/navHome"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="nav home"
-                android:src="@drawable/home" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/home"
+                android:contentDescription="nav home"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/navTasks"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="nav tasks"
-                android:src="@drawable/tasks" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/tasks"
+                android:contentDescription="nav tasks"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <ImageView
-                android:id="@+id/navGlobal"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="nav global"
-                android:src="@drawable/streaks" />
+                android:id="@+id/navStreaks"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/streaks"
+                android:contentDescription="nav streaks"/>
+        </LinearLayout>
 
-            <ImageView
-                android:id="@+id/navGlobal"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="nav global"
-                android:src="@drawable/profile" />
-
-            <ImageView
-                android:id="@+id/navGlobal"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="nav global"
-                android:src="@drawable/community" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/navProfile"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="nav profile"
-                android:src="@drawable/timer" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/profile"
+                android:contentDescription="nav profile"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/navCommunity"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/community"
+                android:contentDescription="nav community"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/navTimer"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/timer"
+                android:contentDescription="nav timer"/>
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

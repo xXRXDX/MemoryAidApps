@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "107766479832",
+    "project_id": "memaidapp",
+    "storage_bucket": "memaidapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107766479832:android:16264dd1f3785dc4e2d0ad",
+        "android_client_info": {
+          "package_name": "com.example.memoryaidapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv1Hg8nNw6j4E-e0cwxnVDljha8-hH9Rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
